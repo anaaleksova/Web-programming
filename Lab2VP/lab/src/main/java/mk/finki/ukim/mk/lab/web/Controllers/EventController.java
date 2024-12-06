@@ -33,7 +33,7 @@ public class EventController {
                                  @RequestParam(required = false) String minRating,
                                  @RequestParam(required = false) String error,
                                 @RequestParam(defaultValue = "1") Integer pageNum,
-                                @RequestParam(defaultValue = "10") Integer pageSize,
+                                @RequestParam(defaultValue = "2") Integer pageSize,
                                 Model model) {
         if (error != null && !error.isEmpty()) {
             model.addAttribute("hasError", true);
