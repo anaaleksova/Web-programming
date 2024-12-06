@@ -7,6 +7,7 @@ import mk.finki.ukim.mk.lab.model.Location;
 import mk.finki.ukim.mk.lab.service.EventBookingService;
 import mk.finki.ukim.mk.lab.service.EventService;
 import mk.finki.ukim.mk.lab.service.LocationService;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +31,10 @@ public class EventController {
     @GetMapping
     public String getEventsPage(@RequestParam(required = false)  String searchName,
                                  @RequestParam(required = false) String minRating,
-                                 @RequestParam(required = false) String error, Model model) {
+                                 @RequestParam(required = false) String error,
+                                @RequestParam(defaultValue = "1") Integer pageNum,
+                                @RequestParam(defaultValue = "10") Integer pageSize,
+                                Model model) {
         if (error != null && !error.isEmpty()) {
             model.addAttribute("hasError", true);
             model.addAttribute("error", error);
@@ -45,6 +49,10 @@ public class EventController {
         } else {
             eventList = eventService.listAll();
         }
+        Page<Event> page = this.eventService.findPage( pageNum, pageSize);
+        model.addAttribute("page", page);
+
+
         model.addAttribute("eventList", eventList);
         return "listEvents";
 

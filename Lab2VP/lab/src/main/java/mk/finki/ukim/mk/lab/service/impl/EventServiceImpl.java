@@ -8,6 +8,9 @@ import mk.finki.ukim.mk.lab.repository.LocationRepository;
 import mk.finki.ukim.mk.lab.repository.jpa.IEventRepository;
 import mk.finki.ukim.mk.lab.repository.jpa.ILocationRepository;
 import mk.finki.ukim.mk.lab.service.EventService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +24,14 @@ public class EventServiceImpl implements EventService {
     public EventServiceImpl(IEventRepository eventRepository, ILocationRepository locationRepository) {
         this.eventRepository = eventRepository;
         this.locationRepository = locationRepository;
+    }
+    @Override
+    public Page<Event> findPage( Integer pageNum, Integer pageSize) {
+
+        return this.eventRepository.findAll(
+
+                PageRequest.of(pageNum - 1, pageSize, Sort.by(Sort.Direction.ASC, "id"))
+        );
     }
 
     @Override

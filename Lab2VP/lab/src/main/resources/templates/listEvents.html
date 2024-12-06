@@ -144,7 +144,7 @@
             the value should be the event name
             and the displayed text should be Name: <event_name>, Description: <event_description>, Rating: <popularity_score> -->
     <form th:method="POST" th:action="@{'/events/placeBooking'}">
-        <th:block th:each="event : ${eventList}">
+        <th:block th:each="event : ${page.getContent()}">
             <input type="radio" name="eventId"
                    th:value="${event.getId()}"
                    th:text="'Id: ' + ${event.getId()} + '   Name: ' + ${event.getName()} + '    Description: '
@@ -171,7 +171,7 @@
             <br>
 
         </th:block>
-
+        <div th:include="fragments/paging :: pageSection(${page})"></div>
     <h2>Choose number of tickets:</h2>
     <input type="number" name="numTickets" min="1" max="10"><br/>
     <br/>

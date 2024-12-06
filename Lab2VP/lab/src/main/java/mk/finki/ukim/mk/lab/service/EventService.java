@@ -3,6 +3,7 @@ package mk.finki.ukim.mk.lab.service;
 import mk.finki.ukim.mk.lab.bootstrap.DataHolder;
 import mk.finki.ukim.mk.lab.model.Event;
 import mk.finki.ukim.mk.lab.model.Location;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,6 +13,7 @@ public interface EventService {
     public Optional<Event> update(Long id, String name, String description, double popularityScore, Long locationId);
     List<Event> findAllByLocationId(Long locationId);
     List<Event> listAll();
+    public Page<Event> findPage(Integer pageNum, Integer pageSize);
     Optional<Event> findById(Long id);
     List<Event> searchEvents(String text);
 //    List<Event> searchEventsByRating(Double rating);
