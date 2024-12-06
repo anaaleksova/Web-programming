@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="container mb-4">
+    <div class="row">
+        <div class="col-12" th:if="${locationList.size() > 0}">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Location name</th>
+                        <th scope="col">Category name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Commands</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="location : ${locationList}" >
+                        <td th:text="${location.getName()}"></td>
+                        <td th:text="${location.getAddress()}"></td>
+                        <td th:text="${location.getCapacity()}"></td>
+                        <td th:text="${location.getDescription()}"></td>
+                        <td><th:block>
+
+                            <a th:href="@{'/locations/delete/{id}' (id=${location.getId()})}">
+                                <i class="fa fa-trash">Delete</i>
+                            </a>
+
+                        </th:block></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+    <a th:href="@{'/locations/add-form'}" class="btn btn-block btn-dark add-product-btn">
+        Add new location
+    </a>
+</div>
+<th:block>
+    <a th:href="@{'/events'}"
+       class="btn btn-sm btn-info edit-product">
+        <i class="fa fa-trash">Events</i>
+    </a>
+</th:block>
+</body>
+</html>

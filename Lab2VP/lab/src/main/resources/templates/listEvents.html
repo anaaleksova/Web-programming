@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Event Booking page - Welcome and choose an Event</title>
+    <style type="text/css">
+        body {
+            width: 800px;
+            margin: auto;
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header h1 {
+            text-align: center;
+            color: #4a90e2;
+            font-size: 2em;
+            margin-bottom: 1em;
+        }
+
+        main h2 {
+            color: #4a90e2;
+            font-size: 1.5em;
+            margin-bottom: 0.5em;
+        }
+
+        /* Form styling */
+        form {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 15px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        input[type="submit"] {
+            background-color: #4a90e2;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #357ab8;
+        }
+
+        /* Event radio button styling */
+        input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .event-info {
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #fafafa;
+        }
+
+        /* Links for edit and delete */
+        a {
+            color: #4a90e2;
+            text-decoration: none;
+            font-size: 0.9em;
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        a:hover {
+            color: #357ab8;
+            text-decoration: underline;
+        }
+
+        /* Buttons for add, edit, delete */
+        .btn {
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 0.9em;
+            cursor: pointer;
+            color: #fff;
+        }
+
+        .btn-dark {
+            background-color: #333;
+        }
+
+        .btn-info {
+            background-color: #5bc0de;
+        }
+
+        .btn-dark:hover,
+        .btn-info:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Welcome to our Event Booking App</h1>
+</header>
+<main>
+    <th:block>
+        <a th:href="@{'/locations'}"
+           class="btn btn-sm btn-info edit-product">
+            <i class="fa fa-trash">Locations</i>
+        </a>
+    </th:block>
+    <h2>Search an event:</h2>
+    <form th:method="GET" th:action="@{'/events'}">
+        <label for="search">By Event Name:</label>
+        <input type="text" name="searchName" id="search" placeholder="Search an event">
+        <br/>
+        <label for="minRating">By Minimum Event Rating (0.00 - 10.00): </label>
+        <input type="number" name="minRating" step="0.1" id="minRating" min="0" max="10" placeholder="Min Rating">
+        <br/>
+        <input type="submit" value="Submit">
+    </form>
+    <h2>Choose an event:</h2>
+    <!-- Display radio buttons for each event,
+            the value should be the event name
+            and the displayed text should be Name: <event_name>, Description: <event_description>, Rating: <popularity_score> -->
+    <form th:method="POST" th:action="@{'/events/placeBooking'}">
+        <th:block th:each="event : ${eventList}">
+            <input type="radio" name="eventId"
+                   th:value="${event.getId()}"
+                   th:text="'Id: ' + ${event.getId()} + '   Name: ' + ${event.getName()} + '    Description: '
+                   + ${event.getDescription()} + 'Rating: ' + ${event.getPopularityScore()} +
+                    '   Location: ' +${event.getLocation().getName()} ">
+            <br>
+            <td class="text-right">
+                <th:block>
+
+                    <a th:href="@{'/events/delete/{id}' (id=${event.getId()})}">
+                        <i class="fa fa-trash">Delete</i>
+                    </a>
+
+                </th:block>
+                <th:block>
+                    <a th:href="@{'/events/edit-form/{id}' (id=${event.getId()})}"
+                       class="btn btn-sm btn-info edit-product">
+                        <i class="fa fa-trash">Edit</i>
+                    </a>
+                </th:block>
+
+
+            </td>
+            <br>
+
+        </th:block>
+
+    <h2>Choose number of tickets:</h2>
+    <input type="number" name="numTickets" min="1" max="10"><br/>
+    <br/>
+    <input type="submit" value="Submit">
+    </form>
+    <a th:href="@{'/events/add-form'}" class="btn btn-block btn-dark add-product-btn">
+        Add new product
+    </a>
+
+</main>
+</body>
+</html>
