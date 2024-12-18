@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="">
 <head>
     <meta charset="utf-8">
     <title>Event Booking page - Welcome and choose an Event</title>
@@ -152,14 +152,14 @@
                     '   Location: ' +${event.getLocation().getName()} ">
             <br>
             <td class="text-right">
-                <th:block>
+                <th:block sec:authorize="hasRole('ADMIN')">
 
                     <a th:href="@{'/events/delete/{id}' (id=${event.getId()})}">
                         <i class="fa fa-trash">Delete</i>
                     </a>
 
                 </th:block>
-                <th:block>
+                <th:block sec:authorize="hasRole('ADMIN')">
                     <a th:href="@{'/events/edit-form/{id}' (id=${event.getId()})}"
                        class="btn btn-sm btn-info edit-product">
                         <i class="fa fa-trash">Edit</i>
@@ -177,9 +177,11 @@
     <br/>
     <input type="submit" value="Submit">
     </form>
+    <th:block sec:authorize="hasRole('ADMIN')">
     <a th:href="@{'/events/add-form'}" class="btn btn-block btn-dark add-product-btn">
         Add new product
     </a>
+    </th:block>
 
 </main>
 </body>
